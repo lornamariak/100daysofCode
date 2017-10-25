@@ -1,48 +1,43 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
 
 library(shiny)
+library(mailR)
+library(shinythemes)
 
-# Define UI for application that draws a histogram
-ui <- fluidPage(
+
+ui <- fluidPage( 
+  theme = shinytheme("spacelab"),
    
    # Application title
-   titlePanel("Old Faithful Geyser Data"),
+   titlePanel("Mail App "),
    
-   # Sidebar with a slider input for number of bins 
-   sidebarLayout(
-      sidebarPanel(
-         sliderInput("bins",
-                     "Number of bins:",
-                     min = 1,
-                     max = 50,
-                     value = 30)
-      ),
-      
-      # Show a plot of the generated distribution
-      mainPanel(
-         plotOutput("distPlot")
+      mainPanel( 
+        
+        textInput("from","From:"),
+        textInput("to","To"),
+        textInput("subject","Subject"),
+        textAreaInput("body","Message"),
+        actionButton("send","SEND")
+        
       )
    )
-)
 
-# Define server logic required to draw a histogram
+
+
 server <- function(input, output) {
    
-   output$distPlot <- renderPlot({
-      # generate bins based on input$bins from ui.R
-      x    <- faithful[, 2] 
-      bins <- seq(min(x), max(x), length.out = input$bins + 1)
-      
-      # draw the histogram with the specified number of bins
-      hist(x, breaks = bins, col = 'darkgray', border = 'white')
+   observeEvent(input$send,{
+     send.mail(from = input$from ,
+               to = c(input$to),
+               subject = input$subject,
+               body = input$body,
+               smtp = list(host.name = "smtp.gmail.com", port = 587,user.name = "lorna1661maria", passwd = "trignometry", ssl = TRUE),
+               authenticate = TRUE,
+               send = TRUE)
+              
+     showNotification("Message Sent")
+     
    })
+  
 }
 
 # Run the application 
