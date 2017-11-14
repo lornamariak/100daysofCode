@@ -1,0 +1,31 @@
+body{
+    font-family: 'monospace';
+    background: #77B4B7;
+    color:#DCF1F2;
+  
+}
+h3{
+    font-size: 20px;
+    color:#DCF1F2;
+    text-align: center;
+     
+}
+#send{
+    font-size: 20px;
+    color:#DCF1F2;
+    text-align: center;
+    
+}
+#main{
+    
+    
+    display: inline-block;
+    
+    
+    
+}
+#sub{
+    display: inline-block;
+}
+
+
